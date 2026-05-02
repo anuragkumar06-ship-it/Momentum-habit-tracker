@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Momentum — Complete Guide</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #07070f;
+    --surface: #0e0e1a;
+    --card: #13131f;
+    --border: rgba(255,255,255,0.08);
+    --accent: #7b6ef6;
+    --accent2: #a78bfa;
+    --gold: #f0c060;
+    --green: #22d87a;
+    --red: #f2536a;
+    --text: #f0f0f8;
+    --text2: #8888aa;
+    --text3: #444466;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh; display: flex; flex-direction: column;
+    align-items: center; justify-content: center; text-align: center;
+    padding: 60px 24px; position: relative; overflow: hidden;
+  }
+  .hero::before {
+    content: ''; position: absolute; top: -200px; left: 50%; transform: translateX(-50%);
+    width: 600px; height: 600px; border-radius: 50%;
+    background: radial-gradient(circle, rgba(123,110,246,0.18) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .hero-badge {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: rgba(123,110,246,0.12); border: 1px solid rgba(123,110,246,0.3);
+    border-radius: 100px; padding: 6px 16px; font-size: 13px; color: var(--accent2);
+    margin-bottom: 28px; letter-spacing: 0.04em;
+  }
+  .hero h1 {
+    font-family: 'Syne', sans-serif; font-size: clamp(48px, 8vw, 88px);
+    font-weight: 800; letter-spacing: -2px; line-height: 1.0;
+    background: linear-gradient(135deg, #fff 30%, var(--accent2) 70%, var(--gold));
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    margin-bottom: 20px;
+  }
+  .hero-sub {
+    font-size: clamp(16px, 2.5vw, 20px); color: var(--text2); max-width: 560px;
+    font-weight: 300; margin-bottom: 40px; line-height: 1.6;
+  }
+  .hero-pills { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin-bottom: 50px; }
+  .pill {
+    background: rgba(255,255,255,0.05); border: 1px solid var(--border);
+    border-radius: 100px; padding: 8px 18px; font-size: 13px; color: var(--text2);
+    display: flex; align-items: center; gap: 6px;
+  }
+  .hero-scroll { color: var(--text3); font-size: 13px; letter-spacing: 0.08em; text-transform: uppercase; }
+
+  /* SECTIONS */
+  .section { max-width: 860px; margin: 0 auto; padding: 80px 24px; }
+  .section-num {
+    font-family: 'Syne', sans-serif; font-size: 11px; font-weight: 700;
+    color: var(--accent); letter-spacing: 0.15em; text-transform: uppercase;
+    margin-bottom: 10px; display: flex; align-items: center; gap: 10px;
+  }
+  .section-num::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+  .section h2 {
+    font-family: 'Syne', sans-serif; font-size: clamp(28px, 4vw, 40px);
+    font-weight: 700; margin-bottom: 14px; letter-spacing: -0.5px;
+  }
+  .section-intro { font-size: 16px; color: var(--text2); margin-bottom: 40px; max-width: 620px; line-height: 1.7; }
+
+  /* DIVIDER */
+  .divider { border: none; border-top: 1px solid var(--border); margin: 0; }
+
+  /* STEP CARDS */
+  .steps { display: flex; flex-direction: column; gap: 16px; }
+  .step-card {
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: 20px; padding: 28px 32px;
+    display: flex; gap: 24px; align-items: flex-start;
+    transition: border-color 0.2s;
+  }
+  .step-card:hover { border-color: rgba(123,110,246,0.3); }
+  .step-num {
+    font-family: 'Syne', sans-serif; font-size: 36px; font-weight: 800;
+    color: var(--text3); line-height: 1; flex-shrink: 0; min-width: 44px;
+  }
+  .step-content { flex: 1; }
+  .step-title { font-family: 'Syne', sans-serif; font-size: 18px; font-weight: 700; margin-bottom: 8px; }
+  .step-desc { font-size: 15px; color: var(--text2); line-height: 1.7; }
+  .step-tag {
+    display: inline-block; margin-top: 12px; background: rgba(123,110,246,0.12);
+    border: 1px solid rgba(123,110,246,0.25); border-radius: 8px;
+    padding: 4px 12px; font-size: 12px; color: var(--accent2);
+  }
+
+  /* CODE BLOCK */
+  .code-block {
+    background: #0a0a14; border: 1px solid var(--border); border-radius: 14px;
+    padding: 20px 24px; font-family: 'Courier New', monospace;
+    font-size: 14px; color: #c4b5fd; margin: 16px 0; overflow-x: auto;
+    position: relative;
+  }
+  .code-label {
+    font-size: 10px; text-transform: uppercase; letter-spacing: 0.1em;
+    color: var(--text3); margin-bottom: 10px; font-family: 'DM Sans', sans-serif;
+  }
+  .code-block span.key { color: var(--gold); }
+  .code-block span.val { color: var(--green); }
+  .code-block span.comment { color: var(--text3); }
+
+  /* METHOD CARDS */
+  .method-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px,1fr)); gap: 16px; margin-bottom: 40px; }
+  .method-card {
+    background: var(--card); border: 1px solid var(--border); border-radius: 20px; padding: 26px;
+    transition: transform 0.2s, border-color 0.2s;
+  }
+  .method-card:hover { transform: translateY(-3px); border-color: rgba(255,255,255,0.15); }
+  .method-card.featured { border-color: rgba(123,110,246,0.4); background: linear-gradient(135deg, rgba(123,110,246,0.08), rgba(13,13,31,1)); }
+  .method-badge {
+    display: inline-block; font-size: 10px; font-weight: 600; padding: 3px 10px;
+    border-radius: 100px; margin-bottom: 14px; letter-spacing: 0.06em; text-transform: uppercase;
+  }
+  .method-badge.easy { background: rgba(34,216,122,0.15); color: var(--green); }
+  .method-badge.best { background: rgba(123,110,246,0.2); color: var(--accent2); }
+  .method-badge.dev { background: rgba(240,192,96,0.15); color: var(--gold); }
+  .method-icon { font-size: 32px; margin-bottom: 12px; }
+  .method-title { font-family: 'Syne', sans-serif; font-size: 18px; font-weight: 700; margin-bottom: 8px; }
+  .method-desc { font-size: 14px; color: var(--text2); line-height: 1.6; }
+
+  /* MINI STEPS */
+  .mini-steps { list-style: none; margin: 16px 0; }
+  .mini-steps li {
+    display: flex; gap: 12px; align-items: flex-start;
+    font-size: 14px; color: var(--text2); padding: 8px 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .mini-steps li:last-child { border-bottom: none; }
+  .mini-steps li::before {
+    content: attr(data-n); font-family: 'Syne', sans-serif; font-weight: 700;
+    font-size: 11px; color: var(--accent2); min-width: 20px;
+    background: rgba(123,110,246,0.12); border-radius: 6px;
+    padding: 2px 7px; margin-top: 2px; text-align: center;
+  }
+
+  /* VIDEO CARD */
+  .video-card {
+    background: var(--card); border: 1px solid var(--border); border-radius: 20px;
+    overflow: hidden; margin: 24px 0; transition: border-color 0.2s;
+  }
+  .video-card:hover { border-color: rgba(242,83,106,0.4); }
+  .video-thumb {
+    width: 100%; aspect-ratio: 16/9; background: #0f0f1a;
+    display: flex; align-items: center; justify-content: center;
+    position: relative; overflow: hidden;
+  }
+  .video-thumb::before {
+    content: ''; position: absolute; inset: 0;
+    background: linear-gradient(135deg, rgba(242,83,106,0.15), rgba(123,110,246,0.15));
+  }
+  .play-btn {
+    width: 64px; height: 64px; background: #ff0000; border-radius: 14px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 24px; position: relative; z-index: 1;
+    box-shadow: 0 8px 32px rgba(255,0,0,0.4);
+    transition: transform 0.2s;
+  }
+  .video-card:hover .play-btn { transform: scale(1.1); }
+  .video-info { padding: 20px 24px; display: flex; align-items: center; gap: 14px; }
+  .yt-logo { width: 36px; height: 36px; background: #ff0000; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 16px; flex-shrink: 0; }
+  .video-title { font-size: 15px; font-weight: 500; margin-bottom: 3px; }
+  .video-sub { font-size: 12px; color: var(--text3); }
+  .video-link { margin-left: auto; }
+  .btn-watch {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: #ff0000; color: #fff; border-radius: 10px;
+    padding: 10px 18px; font-size: 13px; font-weight: 500;
+    text-decoration: none; transition: opacity 0.2s;
+    font-family: 'DM Sans', sans-serif;
+  }
+  .btn-watch:hover { opacity: 0.85; }
+
+  /* TIP BOX */
+  .tip {
+    border-radius: 14px; padding: 18px 22px; margin: 20px 0;
+    display: flex; gap: 14px; align-items: flex-start; font-size: 14px; line-height: 1.6;
+  }
+  .tip.info { background: rgba(123,110,246,0.08); border: 1px solid rgba(123,110,246,0.2); color: var(--text2); }
+  .tip.warn { background: rgba(240,192,96,0.08); border: 1px solid rgba(240,192,96,0.2); color: #c9a040; }
+  .tip.success { background: rgba(34,216,122,0.08); border: 1px solid rgba(34,216,122,0.2); color: #1aaa60; }
+  .tip-icon { font-size: 20px; flex-shrink: 0; }
+
+  /* FAQ */
+  .faq-list { display: flex; flex-direction: column; gap: 2px; }
+  .faq-item {
+    background: var(--card); border: 1px solid var(--border); border-radius: 14px;
+    overflow: hidden; transition: border-color 0.2s;
+  }
+  .faq-item:hover { border-color: var(--border); }
+  .faq-q {
+    padding: 18px 22px; font-size: 15px; font-weight: 500; cursor: pointer;
+    display: flex; justify-content: space-between; align-items: center;
+    user-select: none;
+  }
+  .faq-q::after { content: '+'; font-size: 20px; color: var(--text3); transition: transform 0.2s; }
+  .faq-item.open .faq-q::after { transform: rotate(45deg); }
+  .faq-a { display: none; padding: 0 22px 18px; font-size: 14px; color: var(--text2); line-height: 1.7; }
+  .faq-item.open .faq-a { display: block; }
+
+  /* FEATURES GRID */
+  .features-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px,1fr)); gap: 12px; margin: 24px 0; }
+  .feature-item {
+    background: var(--card); border: 1px solid var(--border); border-radius: 14px;
+    padding: 18px; display: flex; flex-direction: column; gap: 8px;
+  }
+  .feature-emoji { font-size: 24px; }
+  .feature-name { font-size: 14px; font-weight: 500; }
+  .feature-desc { font-size: 12px; color: var(--text3); }
+
+  /* CTA SECTION */
+  .cta-section {
+    text-align: center; padding: 80px 24px;
+    background: linear-gradient(180deg, transparent, rgba(123,110,246,0.06));
+  }
+  .cta-section h2 { font-family: 'Syne', sans-serif; font-size: 36px; font-weight: 800; margin-bottom: 14px; letter-spacing: -0.5px; }
+  .cta-section p { color: var(--text2); font-size: 16px; max-width: 500px; margin: 0 auto 32px; }
+  .cta-btns { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+  .btn-primary {
+    background: var(--accent); color: #fff; border: none; border-radius: 12px;
+    padding: 14px 28px; font-size: 15px; font-weight: 500; cursor: pointer;
+    text-decoration: none; font-family: 'DM Sans', sans-serif;
+    box-shadow: 0 6px 24px rgba(123,110,246,0.35); transition: all 0.2s;
+    display: inline-flex; align-items: center; gap: 8px;
+  }
+  .btn-primary:hover { background: var(--accent2); transform: translateY(-2px); }
+  .btn-secondary {
+    background: rgba(255,255,255,0.06); color: var(--text); border: 1px solid var(--border);
+    border-radius: 12px; padding: 14px 28px; font-size: 15px; cursor: pointer;
+    text-decoration: none; font-family: 'DM Sans', sans-serif;
+    transition: all 0.2s; display: inline-flex; align-items: center; gap: 8px;
+  }
+  .btn-secondary:hover { background: rgba(255,255,255,0.1); }
+
+  /* FOOTER */
+  footer { border-top: 1px solid var(--border); padding: 32px 24px; text-align: center; color: var(--text3); font-size: 13px; }
+  .footer-logo { font-family: 'Syne', sans-serif; font-size: 20px; font-weight: 800; color: var(--text2); margin-bottom: 8px; }
+
+  /* SCROLL PROGRESS */
+  #progress { position: fixed; top: 0; left: 0; height: 3px; background: linear-gradient(90deg, var(--accent), var(--gold)); z-index: 999; transition: width 0.1s; }
+
+  /* STICKY NAV */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    background: rgba(7,7,15,0.85); backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border); padding: 14px 32px;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .nav-logo { font-family: 'Syne', sans-serif; font-size: 18px; font-weight: 800; background: linear-gradient(90deg, var(--accent2), var(--gold)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+  .nav-links { display: flex; gap: 24px; }
+  .nav-links a { font-size: 13px; color: var(--text2); text-decoration: none; transition: color 0.2s; }
+  .nav-links a:hover { color: var(--text); }
+
+  @media (max-width: 600px) {
+    .step-card { flex-direction: column; gap: 12px; }
+    .nav-links { display: none; }
+    .video-info { flex-wrap: wrap; }
+    .video-link { width: 100%; }
+    .btn-watch { width: 100%; justify-content: center; }
+  }
+</style>
+</head>
+<body>
+
+<div id="progress"></div>
+
+<nav>
+  <div class="nav-logo">Momentum ✦</div>
+  <div class="nav-links">
+    <a href="#start">Get Started</a>
+    <a href="#deploy">Deploy</a>
+    <a href="#github">GitHub</a>
+    <a href="#faq">FAQ</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="hero" style="padding-top:100px">
+  <div class="hero-badge">✦ Free · Offline · No Login Required</div>
+  <h1>Momentum</h1>
+  <p class="hero-sub">Your complete guide to setting up, using, and deploying your habit tracker — in under 10 minutes.</p>
+  <div class="hero-pills">
+    <div class="pill">📄 1 HTML File</div>
+    <div class="pill">🌐 Free Hosting</div>
+    <div class="pill">📱 Works on Phone</div>
+    <div class="pill">💾 No Server Needed</div>
+    <div class="pill">⚡ 5 Min Setup</div>
+  </div>
+  <div class="hero-scroll">↓ Scroll to begin</div>
+</div>
+
+<hr class="divider">
+
+<!-- FEATURES -->
+<div class="section" id="features">
+  <div class="section-num">What's inside</div>
+  <h2>Everything you get</h2>
+  <p class="section-intro">Momentum is a fully featured habit tracker packed into a single HTML file. No frameworks. No dependencies. Nothing to install.</p>
+
+  <div class="features-grid">
+    <div class="feature-item"><div class="feature-emoji">🔥</div><div class="feature-name">Streak Tracking</div><div class="feature-desc">Never break the chain</div></div>
+    <div class="feature-item"><div class="feature-emoji">🏆</div><div class="feature-name">Achievements</div><div class="feature-desc">Unlock as you grow</div></div>
+    <div class="feature-item"><div class="feature-emoji">🌙</div><div class="feature-name">Dark Mode</div><div class="feature-desc">Easy on the eyes</div></div>
+    <div class="feature-item"><div class="feature-emoji">📊</div><div class="feature-name">Progress Charts</div><div class="feature-desc">See your growth visually</div></div>
+    <div class="feature-item"><div class="feature-emoji">💾</div><div class="feature-name">Local Storage</div><div class="feature-desc">Data stays in browser</div></div>
+    <div class="feature-item"><div class="feature-emoji">📴</div><div class="feature-name">Works Offline</div><div class="feature-desc">No internet needed</div></div>
+    <div class="feature-item"><div class="feature-emoji">📱</div><div class="feature-name">Installable PWA</div><div class="feature-desc">Add to home screen</div></div>
+    <div class="feature-item"><div class="feature-emoji">🔔</div><div class="feature-name">Reminders</div><div class="feature-desc">Daily habit nudges</div></div>
+  </div>
+</div>
+
+<hr class="divider">
+
+<!-- STEP 1 — GET THE FILE -->
+<div class="section" id="start">
+  <div class="section-num">Step 1</div>
+  <h2>Get the file</h2>
+  <p class="section-intro">You have one file — <strong style="color:var(--text)">momentum.html</strong> — that's your entire app. Here's what to do with it.</p>
+
+  <div class="steps">
+    <div class="step-card">
+      <div class="step-num">01</div>
+      <div class="step-content">
+        <div class="step-title">Save the file to your computer</div>
+        <div class="step-desc">You received the file as <strong style="color:var(--text)">momentum.html</strong> — save it somewhere you can find it easily, like your Desktop or a folder called "Projects".</div>
+        <span class="step-tag">💡 Rename it to index.html before deploying</span>
+      </div>
+    </div>
+
+    <div class="step-card">
+      <div class="step-num">02</div>
+      <div class="step-content">
+        <div class="step-title">Open it in your browser</div>
+        <div class="step-desc">Double-click the file — it opens directly in Chrome, Edge, or Firefox. No server needed. It works exactly like a website, right from your desktop.</div>
+        <div class="code-block">
+          <div class="code-label">Your file path will look like</div>
+          file:///Users/yourname/Desktop/<span class="val">momentum.html</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="step-card">
+      <div class="step-num">03</div>
+      <div class="step-content">
+        <div class="step-title">Start adding habits</div>
+        <div class="step-desc">Click "+ Add Habit", name your habit, pick a colour and icon, set your daily target — and start tracking from today. Your data saves automatically to your browser's local storage. Nothing leaves your device.</div>
+        <span class="step-tag">✓ Data is private — only on your device</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="tip info" style="margin-top:24px">
+    <div class="tip-icon">💡</div>
+    <div>To use it on your phone: deploy it online using one of the methods below, then open it in your phone browser and tap <strong style="color:var(--text)">"Add to Home Screen"</strong> — it installs like a real app.</div>
+  </div>
+</div>
+
+<hr class="divider">
+
+<!-- STEP 2 — DEPLOY -->
+<div class="section" id="deploy">
+  <div class="section-num">Step 2</div>
+  <h2>Deploy it free</h2>
+  <p class="section-intro">To access Momentum on any device — phone, tablet, laptop — you need to host it online. Here are 3 free ways to do it.</p>
+
+  <div class="method-grid">
+    <div class="method-card featured">
+      <div class="method-badge easy">⚡ Easiest</div>
+      <div class="method-icon">🟢</div>
+      <div class="method-title">Netlify Drop</div>
+      <div class="method-desc">No account. No setup. Just drag and drop your file. Done in 60 seconds.</div>
+    </div>
+    <div class="method-card">
+      <div class="method-badge best">⭐ Best</div>
+      <div class="method-icon">🔵</div>
+      <div class="method-title">Netlify Account</div>
+      <div class="method-desc">Free account. Permanent link. Custom name. Best for long-term use.</div>
+    </div>
+    <div class="method-card">
+      <div class="method-badge dev">🛠 For Devs</div>
+      <div class="method-icon">⚫</div>
+      <div class="method-title">GitHub Pages</div>
+      <div class="method-desc">Host from GitHub repo. Auto-deploys on every update. Most powerful.</div>
+    </div>
+  </div>
+
+  <!-- NETLIFY DROP -->
+  <div style="margin-bottom:40px">
+    <h3 style="font-family:'Syne',sans-serif;font-size:20px;font-weight:700;margin-bottom:8px;display:flex;align-items:center;gap:10px">🟢 Method A — Netlify Drop <span style="font-size:12px;background:rgba(34,216,122,0.12);color:var(--green);border-radius:100px;padding:3px 12px">No account needed</span></h3>
+    <p style="color:var(--text2);font-size:14px;margin-bottom:16px">The fastest way to get your app online. Takes under 2 minutes.</p>
+    <ul class="mini-steps">
+      <li data-n="1">Rename your file from <strong style="color:var(--text)">momentum.html</strong> to <strong style="color:var(--gold)">index.html</strong></li>
+      <li data-n="2">Open your browser and go to <strong style="color:var(--accent2)">netlify.com/drop</strong></li>
+      <li data-n="3">Drag and drop your <strong style="color:var(--gold)">index.html</strong> file into the big box on the page</li>
+      <li data-n="4">Wait 5–10 seconds — Netlify gives you a live URL instantly</li>
+      <li data-n="5">Copy your URL — it looks like <strong style="color:var(--green)">amazing-name-123.netlify.app</strong></li>
+      <li data-n="6">Open it on your phone and tap "Add to Home Screen"</li>
+    </ul>
+    <div class="tip warn">
+      <div class="tip-icon">⚠️</div>
+      <div>Without an account, Netlify Drop URLs expire after 24 hours. For a permanent link, use Method B below.</div>
+    </div>
+  </div>
+
+  <!-- NETLIFY ACCOUNT -->
+  <div style="margin-bottom:40px">
+    <h3 style="font-family:'Syne',sans-serif;font-size:20px;font-weight:700;margin-bottom:8px">🔵 Method B — Netlify Free Account</h3>
+    <p style="color:var(--text2);font-size:14px;margin-bottom:16px">Best option. Free forever. Permanent URL. You can even rename your site.</p>
+    <ul class="mini-steps">
+      <li data-n="1">Go to <strong style="color:var(--accent2)">netlify.com</strong> and sign up free — use your Google account</li>
+      <li data-n="2">Click <strong style="color:var(--text)">"Add new site" → "Deploy manually"</strong></li>
+      <li data-n="3">Rename your file to <strong style="color:var(--gold)">index.html</strong> and drag it into the deploy box</li>
+      <li data-n="4">Your site goes live at a random URL like <strong style="color:var(--green)">random-name.netlify.app</strong></li>
+      <li data-n="5">To rename: go to <strong style="color:var(--text)">Site Settings → Change site name</strong> → type something like <strong style="color:var(--green)">my-momentum.netlify.app</strong></li>
+      <li data-n="6">Share your custom URL with anyone — they can use it too</li>
+    </ul>
+    <div class="tip success">
+      <div class="tip-icon">✅</div>
+      <div>Your URL is permanent and free. You can redeploy any time by dragging a new file — your URL stays the same.</div>
+    </div>
+  </div>
+</div>
+
+<hr class="divider">
+
+<!-- GITHUB PAGES -->
+<div class="section" id="github">
+  <div class="section-num">Step 3 — Advanced</div>
+  <h2>Deploy with GitHub Pages</h2>
+  <p class="section-intro">For developers or anyone who wants to learn GitHub. Free forever. Auto-deploys when you update your file. Watch the full tutorial below.</p>
+
+  <!-- VIDEO -->
+  <a href="https://www.youtube.com/watch?v=e5AwNU3Y2es" target="_blank" style="text-decoration:none">
+    <div class="video-card">
+      <div class="video-thumb">
+        <div class="play-btn">▶</div>
+      </div>
+      <div class="video-info">
+        <div class="yt-logo">▶</div>
+        <div>
+          <div class="video-title">How to Deploy with GitHub Pages — Full Tutorial</div>
+          <div class="video-sub">YouTube · Step by step guide · Recommended for beginners</div>
+        </div>
+        <div class="video-link">
+          <span class="btn-watch">Watch Now ↗</span>
+        </div>
+      </div>
+    </div>
+  </a>
+
+  <div class="steps" style="margin-top:24px">
+    <div class="step-card">
+      <div class="step-num">01</div>
+      <div class="step-content">
+        <div class="step-title">Create a GitHub account</div>
+        <div class="step-desc">Go to <strong style="color:var(--accent2)">github.com</strong> and sign up for a free account. It takes 2 minutes. You only need to do this once.</div>
+      </div>
+    </div>
+
+    <div class="step-card">
+      <div class="step-num">02</div>
+      <div class="step-content">
+        <div class="step-title">Create a new repository</div>
+        <div class="step-desc">Click the green <strong style="color:var(--green)">"New"</strong> button. Name your repo something like <strong style="color:var(--gold)">momentum-habit-tracker</strong>. Keep it Public. Click "Create repository".</div>
+        <div class="code-block">
+          <div class="code-label">Recommended repo name</div>
+          <span class="val">momentum-habit-tracker</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="step-card">
+      <div class="step-num">03</div>
+      <div class="step-content">
+        <div class="step-title">Upload your file</div>
+        <div class="step-desc">Inside your new repo, click <strong style="color:var(--text)">"uploading an existing file"</strong>. Drag your file — make sure it's named <strong style="color:var(--gold)">index.html</strong>. Click "Commit changes".</div>
+        <span class="step-tag">⚠️ File must be named exactly: index.html</span>
+      </div>
+    </div>
+
+    <div class="step-card">
+      <div class="step-num">04</div>
+      <div class="step-content">
+        <div class="step-title">Enable GitHub Pages</div>
+        <div class="step-desc">Go to your repo → <strong style="color:var(--text)">Settings → Pages</strong>. Under "Branch", select <strong style="color:var(--gold)">main</strong> and folder <strong style="color:var(--gold)">/root</strong>. Click Save.</div>
+      </div>
+    </div>
+
+    <div class="step-card">
+      <div class="step-num">05</div>
+      <div class="step-content">
+        <div class="step-title">Your site is live!</div>
+        <div class="step-desc">Wait 1–2 minutes, then your app is live at:</div>
+        <div class="code-block">
+          <span class="key">https://</span><span class="val">yourusername</span><span class="key">.github.io/</span><span class="val">momentum-habit-tracker</span>
+        </div>
+        <div class="step-desc">Share this link anywhere. To update the app later — just upload a new index.html file to the same repo.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="tip info" style="margin-top:24px">
+    <div class="tip-icon">🎥</div>
+    <div>Still confused? Watch the full video tutorial above — it walks through every single step with screen recording. Link: <a href="https://www.youtube.com/watch?v=e5AwNU3Y2es" target="_blank" style="color:var(--accent2)">youtube.com/watch?v=e5AwNU3Y2es</a></div>
+  </div>
+</div>
+
+<hr class="divider">
+
+<!-- INSTALL ON PHONE -->
+<div class="section">
+  <div class="section-num">Bonus</div>
+  <h2>Install on your phone</h2>
+  <p class="section-intro">Once deployed, you can install Momentum on your phone like a real app — no app store needed.</p>
+
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+    <div class="method-card">
+      <div class="method-icon">🤖</div>
+      <div class="method-title">Android</div>
+      <ul class="mini-steps">
+        <li data-n="1">Open your site URL in Chrome</li>
+        <li data-n="2">Tap the 3-dot menu (top right)</li>
+        <li data-n="3">Tap "Add to Home Screen"</li>
+        <li data-n="4">Tap "Add" — done!</li>
+      </ul>
+    </div>
+    <div class="method-card">
+      <div class="method-icon">🍎</div>
+      <div class="method-title">iPhone</div>
+      <ul class="mini-steps">
+        <li data-n="1">Open your site URL in Safari</li>
+        <li data-n="2">Tap the Share button (bottom)</li>
+        <li data-n="3">Scroll and tap "Add to Home Screen"</li>
+        <li data-n="4">Tap "Add" — done!</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<hr class="divider">
+
+<!-- FAQ -->
+<div class="section" id="faq">
+  <div class="section-num">FAQ</div>
+  <h2>Common questions</h2>
+  <p class="section-intro">Everything you might wonder about.</p>
+
+  <div class="faq-list">
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">Will my data be lost if I clear my browser?</div>
+      <div class="faq-a">Yes — Momentum uses your browser's local storage. If you clear your browser data, your habits will be deleted. To avoid this, use the Export feature inside the app to back up your data as a JSON file before clearing.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">Can I use it on multiple devices?</div>
+      <div class="faq-a">Each device has its own local storage, so data doesn't sync automatically between devices. However, you can use the Import/Export feature to manually transfer your data between devices.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">Is it really free? Forever?</div>
+      <div class="faq-a">Yes. The file is yours. Netlify's free plan and GitHub Pages are both permanently free for static files like this. There are no hidden costs, no subscriptions, and no ads.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">Can I share it with friends?</div>
+      <div class="faq-a">Absolutely. Once deployed, just share the URL. Your friends can open it and use their own version — their data stays on their device, separate from yours.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">Do I need to know coding to use this?</div>
+      <div class="faq-a">Not at all. You don't need to touch any code. Just follow the steps in this guide — rename the file, drag it to Netlify, and you're done. No technical knowledge required.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">Can I edit the app or add features?</div>
+      <div class="faq-a">Yes! Since it's a single HTML file, you can open it in any text editor (like VS Code or even Notepad) and edit the code. If you're not a developer, you can describe the changes to an AI like Claude or ChatGPT and it will write the code for you.</div>
+    </div>
+  </div>
+</div>
+
+<hr class="divider">
+
+<!-- CTA -->
+<div class="cta-section">
+  <h2>You're all set. ✦</h2>
+  <p>Momentum is yours — free, forever. Start building habits that actually stick.</p>
+  <div class="cta-btns">
+    <a href="https://www.youtube.com/watch?v=e5AwNU3Y2es" target="_blank" class="btn-primary">▶ Watch GitHub Tutorial</a>
+    <a href="https://app.netlify.com/drop" target="_blank" class="btn-secondary">🟢 Deploy on Netlify</a>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-logo">Momentum ✦</div>
+  <p>Built with AI · Deployed free · Owned by you</p>
+  <p style="margin-top:8px">GitHub Tutorial: <a href="https://www.youtube.com/watch?v=e5AwNU3Y2es" target="_blank" style="color:var(--accent2);text-decoration:none">youtube.com/watch?v=e5AwNU3Y2es</a></p>
+</footer>
+
+<script>
+  // scroll progress
+  window.addEventListener('scroll', () => {
+    const p = (window.scrollY / (document.body.scrollHeight - window.innerHeight)) * 100;
+    document.getElementById('progress').style.width = p + '%';
+  });
+
+  // faq toggle
+  function toggleFaq(el) {
+    const item = el.parentElement;
+    item.classList.toggle('open');
+  }
+</script>
+</body>
+</html>
